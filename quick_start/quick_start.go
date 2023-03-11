@@ -1,10 +1,11 @@
-package main
+package quick_start
 
 import (
 	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
+	"os"
 )
 
 type Product struct {
@@ -18,7 +19,8 @@ func (p Product) String() string {
 }
 
 func ShowQuickStart() {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	sqliteDsn := "test.db"
+	db, err := gorm.Open(sqlite.Open(sqliteDsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,4 +66,8 @@ func ShowQuickStart() {
 
 	// Delete - delete product
 	db.Delete(&product, 1)
+
+	if err = os.Remove(sqliteDsn); err != nil {
+		log.Fatal(err)
+	}
 }

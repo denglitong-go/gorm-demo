@@ -3,6 +3,8 @@
 // go get -u gorm.io/driver/sqlite
 package main
 
+import "go-orm/quick_start"
+
 func main() {
-	ShowQuickStart()
+	quick_start.ShowQuickStart()
 }
