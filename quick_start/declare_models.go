@@ -28,7 +28,7 @@ type User struct {
 // Model GORM defined a gorm.Model struct, which includes fields
 // ID, CreatedAt, UpdatedAt, DeletedAt
 type Model struct {
-	ID        uint
+	ID        uint `gorm:"primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
