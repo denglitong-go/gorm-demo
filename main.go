@@ -7,4 +7,5 @@ import "go-orm/quick_start"
 
 func main() {
 	quick_start.ShowQuickStart()
+	quick_start.ShowGORMConnectToMysql()
 }
