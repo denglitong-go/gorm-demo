@@ -1,4 +1,4 @@
-package quick_start
+package common
 
 import (
 	"database/sql"
