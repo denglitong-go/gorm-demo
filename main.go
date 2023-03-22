@@ -8,6 +8,7 @@ import (
 	"go-orm/quick_start"
 )
 
+// DB_USER=root DB_PASSWORD=12345678 go run .
 func main() {
 	quick_start.ShowQuickStart()
 	// quick_start.ShowGORMConnectToMysql()
