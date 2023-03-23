@@ -7,6 +7,7 @@ CREATE TABLE album (
     title VARCHAR(128) NOT NULL ,
     artist VARCHAR(255) NOT NULL ,
     price DECIMAL(5,2) NOT NULL ,
+    location JSON NULL ,
     PRIMARY KEY (`id`)
 );
 

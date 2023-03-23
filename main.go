@@ -5,13 +5,13 @@ package main
 
 import (
 	"go-orm/crud"
-	"go-orm/quick_start"
 )
 
 // DB_USER=root DB_PASSWORD=12345678 go run .
 func main() {
-	quick_start.ShowQuickStart()
+	// quick_start.ShowQuickStart()
 	// quick_start.ShowGORMConnectToMysql()
 	// quick_start.ShowGORMConnectToPostgreSQL()
-	crud.ShowCreate()
+	// crud.ShowCreate()
+	crud.ShowQuery()
 }
