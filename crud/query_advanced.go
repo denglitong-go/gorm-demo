@@ -187,3 +187,104 @@ func Iteration() {
 		// ...
 	}
 }
+
+func FindInBatches() {
+	// batch size 100
+	type Result struct {
+		// fields
+	}
+	var results []Result
+	db.Where("processed = ?", false).FindInBatches(&results, 100, func(tx *gorm.DB, batch int) error {
+		for _, result := range results {
+			// batch processing found records
+			log.Println(result)
+		}
+
+		tx.Save(&results)
+		log.Println(tx.RowsAffected, batch)
+
+		// returns error will stop future batches
+		return nil
+	})
+}
+
+// AfterFind Query Hooks
+func (u User) AfterFind(tx *gorm.DB) (err error) {
+	log.Println("after find", u.ID)
+	return
+}
+
+// Pluck Query single column from database and scan into a slice,
+// if you want to query multiple columns, use Select with Scan/Find instead
+func Pluck() {
+	var ages []int64
+	db.Model(&User{}).Pluck("age", &ages)
+
+	var names []string
+	// distinct pluck
+	db.Model(&User{}).Distinct().Pluck("name", &names)
+
+	type NameAge struct {
+		Name string
+		Age  int64
+	}
+	var nameAges []NameAge
+	db.Model(&User{}).Select("name", "age").Scan(&nameAges)
+	db.Model(&User{}).Select("name", "age").Find(&nameAges)
+}
+
+func AmountGreaterThan1000(db *gorm.DB) *gorm.DB {
+	return db.Where("amount > ?", 1000)
+}
+
+func PaidWithCreditCard(db *gorm.DB) *gorm.DB {
+	return db.Where("pay_mode_sign = ?", "CreditCard")
+}
+
+func PaidWithCreditCrash(db *gorm.DB) *gorm.DB {
+	return db.Where("pay_mode_sign = ?", "Crash")
+}
+
+// If you need to accept runtime arguments, then you can return func
+func OrderStatus(status []string) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("status IN (?)", status)
+	}
+}
+
+// Scopes allows you to specify commonly-used queries which can be referenced as method calls
+func Scopes() {
+	type Order struct{}
+	var orders []Order
+	// Find all credit card orders and amount greater than 1000
+	db.Scopes(AmountGreaterThan1000, PaidWithCreditCard).Find(&orders)
+
+	// Find all crash orders and amount greater than 1000
+	db.Scopes(AmountGreaterThan1000, PaidWithCreditCrash).Find(&orders)
+
+	// Find all paid, shipped orders that amount greater than 1000
+	db.Scopes(AmountGreaterThan1000, OrderStatus([]string{"paid", "shipped"})).Find(&orders)
+}
+
+func Count() {
+	var count int64
+	db.Model(&User{}).Where("name = ?", "somebody").Count(&count)
+
+	db.Table(albumTable).Count(&count)
+
+	db.Table(albumTable).Distinct().Count(&count)
+
+	db.Table(albumTable).Select("count(distinct(name))").Count(&count)
+
+	// count with group by
+	users := []User{
+		{Name: "name1"},
+		{Name: "name2"},
+		{Name: "name3"},
+		{Name: "name3"},
+	}
+	log.Println("all users", users)
+	// select count(1) from users group by name
+	// count => 3
+	db.Model(&User{}).Group("name").Count(&count)
+}
