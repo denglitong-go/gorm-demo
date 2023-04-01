@@ -9,10 +9,11 @@ import (
 )
 
 type User struct {
-	ID     uint
-	Name   string
-	Age    uint
-	Gender string
+	ID       uint
+	Name     string
+	Age      uint
+	Gender   string
+	Password []byte
 	// hundreds of fields
 }
 
