@@ -14,6 +14,11 @@ type User struct {
 	Age      uint
 	Gender   string
 	Password []byte
+	Role     string
+
+	// if you don't want to include gorm.Model, you can enable the soft delete feature like:
+	DeletedAt gorm.DeletedAt
+
 	// hundreds of fields
 }
 

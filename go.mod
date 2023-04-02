@@ -26,4 +26,5 @@ require (
 	github.com/lib/pq v1.1.1 // indirect
 	gorm.io/datatypes v1.0.5 // indirect
 	gorm.io/hints v1.1.1 // indirect
+	gorm.io/plugin/soft_delete v1.2.0 // indirect
 )
