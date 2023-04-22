@@ -9,6 +9,7 @@ import (
 // When using GORM AutoMigrate to create a table for User, GORM will create the join table automatically.
 type User2 struct {
 	gorm.Model
+	Name      string
 	Languages []Language `gorm:"many2many:user_languages;"`
 }
 
